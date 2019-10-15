@@ -19,7 +19,7 @@ public class PauseController : MonoBehaviour
 
 	private void GetInput()
 	{
-		if (Input.GetButtonDown("Pause"))
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			if (!gamePaused)
 			{
