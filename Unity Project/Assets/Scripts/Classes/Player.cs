@@ -139,6 +139,7 @@ public class Player : ICharacterInterface
 	private IDictionary<string, string> statusBarInformation = new Dictionary<string, string>();
 	private Weapon weapon = new Weapon();
     public float color_flash_timer = 0;
+    private int statusBarScaling;
 
 	#endregion
 
@@ -275,7 +276,6 @@ public class Player : ICharacterInterface
                 RangedAttack();
 				AudioSource.PlayClipAtPoint(clip, player.transform.position, 0.25f);
 				//Debug.Log("Ranged attack"); 
-
 			}
 			else
 			{
@@ -307,13 +307,15 @@ public class Player : ICharacterInterface
 			if (currentAttackType == "melee")
 			{
 				currentAttackType = "ranged";
-			}
+                this.player.GetComponent<StatusBarLogic>().SetWeapon();
+            }
 			else
 			{
 				currentAttackType = "melee";
-			}
+                this.player.GetComponent<StatusBarLogic>().SetWeapon();
+            }
 
-			this.player.GetComponent<StatusBarLogic>().SetWeapon();
+			
 		}
 	}
 
@@ -427,7 +429,15 @@ public class Player : ICharacterInterface
 
 	public void TakeDamage(int damage)
 	{
-		this.health -= damage;
+        if (Screen.width == 1024)
+        {
+            statusBarScaling = 1;
+        }
+        else
+        {
+            statusBarScaling = 1024 / Screen.width;
+        }
+		this.health -= damage / statusBarScaling;
 		this.player.GetComponent<StatusBarLogic>().SetHealth();
         if(this.Health <= 0)
         {
@@ -438,7 +448,15 @@ public class Player : ICharacterInterface
 
     public void AdjustStamina(float stamina)
     {
-        this.stamina += stamina;
+        if (Screen.width == 1024)
+        {
+            statusBarScaling = 1;
+        }
+        else
+        {
+            statusBarScaling = 1024 / Screen.width;
+        }
+        this.stamina += stamina / statusBarScaling;
         this.player.GetComponent<StatusBarLogic>().SetStamina();
     }
 
@@ -582,6 +600,13 @@ public class Player : ICharacterInterface
                 if(item.name.Contains("Knife"))
                 {
                     MeleeWeapon = "Knife";
+                }
+            }
+            if(currentRangedWeapon == null)
+            {
+                if(item.name.Contains("Gun"))
+                {
+                    RangedWeapon = "Gun";
                 }
             }
 

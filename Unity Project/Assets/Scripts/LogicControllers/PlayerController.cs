@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip jumpSound;
 	public AudioClip gameOverMusic;
 	public float soundEffectVolumeLevel = 0.10f;
+    private int statusBarScaling;
    
 
     void Start() {
@@ -185,14 +186,22 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D other)
     {
-	    tory.Weapon.IsInMeleeRange = true;
+        if (Screen.width == 1024)
+        {
+            statusBarScaling = 1;
+        }
+        else
+        {
+            statusBarScaling = 1024 / Screen.width;
+        }
+        tory.Weapon.IsInMeleeRange = true;
 	    
         //Why Enemy? Do we have objects with this tag?
         if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Zombie") || 
 			other.gameObject.CompareTag("Bandit") || other.gameObject.CompareTag("Spike"))
         {
             tory.color_flash_timer = 0.25f;
-            tory.TakeDamage(7);
+            tory.TakeDamage(7 / statusBarScaling);
         }
         
         if (other.gameObject.CompareTag("Stone"))
