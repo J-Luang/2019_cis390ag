@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 
 	public KeyCode jumpKey = KeyCode.Space;
 	public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode attack = KeyCode.Mouse1;
+    public KeyCode attack = KeyCode.Mouse0;
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode pauseKey = KeyCode.Escape;
     public KeyCode switchWeapon = KeyCode.LeftControl;
@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(attack))
         {
 			if (tory.CurrentAttackType == "ranged") {
 				tory.Attack (gunshotSound);
